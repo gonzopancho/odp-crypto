@@ -72,6 +72,7 @@ OBJS    += $(OBJ_DIR)/odp_time.o
 OBJS    += $(OBJ_DIR)/odp_timer.o
 OBJS    += $(OBJ_DIR)/odp_ring.o
 OBJS    += $(OBJ_DIR)/odp_rwlock.o
+OBJS    += $(OBJ_DIR)/odp_crypto.o
 ifeq ($(ODP_HAVE_NETMAP),yes)
 OBJS    += $(OBJ_DIR)/odp_packet_netmap.o
 endif

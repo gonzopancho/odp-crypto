@@ -4,6 +4,7 @@
 *.orig
 *.patch
 *~
+ID
 tags
 lib/
 obj/
@@ -18,3 +19,4 @@ test/api_test/odp_timer
 test/timer/odp_timer_test
 test/generator/odp_generator
 test/l2fwd/odp_l2fwd
+test/ipsec/odp_ipsec

@@ -220,6 +220,24 @@ void odp_packet_print(odp_packet_t pkt);
  */
 int odp_packet_copy(odp_packet_t pkt_dst, odp_packet_t pkt_src);
 
+/**
+ * Set packet user context
+ *
+ * @param buf      Packet handle
+ * @param ctx      User context
+ *
+ */
+void odp_packet_set_ctx(odp_packet_t buf, void *ctx);
+
+/**
+ * Get packet user context
+ *
+ * @param buf      Packet handle
+ *
+ * @return User context
+ */
+void *odp_packet_get_ctx(odp_packet_t buf);
+
 #ifdef __cplusplus
 }
 #endif
