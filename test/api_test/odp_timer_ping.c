@@ -49,10 +49,10 @@ struct packet {
 	char msg[PKTSIZE-sizeof(struct icmphdr)];
 };
 
-int pid = -1;
-struct protoent *proto;
+static int pid = -1;
+static struct protoent *proto;
 
-struct sockaddr_in dst_addr;
+static struct sockaddr_in dst_addr;
 
 /* local struct for ping_timer_thread argument */
 typedef struct {
@@ -303,7 +303,7 @@ int main(int argc ODP_UNUSED, char *argv[] ODP_UNUSED)
 	}
 
 	test_timer_ping = odp_timer_create("ping_timer", pool,
-					   1000000, 1000000, 1000000000000);
+					   1000000, 1000000, 1000000000000UL);
 	odp_shm_print_all();
 
 	pingarg.thrdarg.testcase = ODP_TIMER_PING_TEST;

@@ -61,7 +61,7 @@ typedef struct {
 /**
  * counters
 */
-struct {
+static struct {
 	odp_atomic_u64_t seq;	/**< ip seq to be send */
 	odp_atomic_u64_t ip;	/**< ip packets */
 	odp_atomic_u64_t udp;	/**< udp packets */
@@ -105,7 +105,7 @@ static void tv_sub(struct timeval *recvtime, struct timeval *sendtime);
  * @param paddr ip address for odp_packet
  * @return 1 success, 0 failed
 */
-int scan_ip(char *buf, unsigned int *paddr)
+static int scan_ip(char *buf, unsigned int *paddr)
 {
 	int part1, part2, part3, part4;
 	char tail = 0;
@@ -146,7 +146,7 @@ int scan_ip(char *buf, unsigned int *paddr)
  * @param  des mac for odp_packet
  * @return 1 success, 0 failed
  */
-int scan_mac(char *in, odp_ethaddr_t *des)
+static int scan_mac(char *in, odp_ethaddr_t *des)
 {
 	int field;
 	int i;
@@ -212,7 +212,7 @@ static void pack_udp_pkt(odp_buffer_t obuf)
 	udp->dst_port = 0;
 	udp->length = odp_cpu_to_be_16(args->appl.payload + ODP_UDPHDR_LEN);
 	udp->chksum = 0;
-	udp->chksum = odp_ipv4_udp_chksum(pkt);
+	udp->chksum = odp_cpu_to_be_16(odp_ipv4_udp_chksum(pkt));
 	odp_packet_set_len(pkt, args->appl.payload + ODP_UDPHDR_LEN +
 			   ODP_IPV4HDR_LEN + ODP_ETHHDR_LEN);
 }
@@ -275,8 +275,8 @@ static void pack_icmp_pkt(odp_buffer_t obuf)
 	gettimeofday(&tval, NULL);
 	memcpy(tval_d, &tval, sizeof(struct timeval));
 	icmp->chksum = 0;
-	icmp->chksum = odp_chksum(icmp, args->appl.payload +
-				  ODP_ICMPHDR_LEN);
+	icmp->chksum = odp_cpu_to_be_16(odp_chksum(icmp, args->appl.payload +
+				  ODP_ICMPHDR_LEN));
 
 	odp_packet_set_len(pkt, args->appl.payload + ODP_ICMPHDR_LEN +
 			   ODP_IPV4HDR_LEN + ODP_ETHHDR_LEN);
@@ -909,7 +909,7 @@ static void usage(char *progname)
  *@param recvtime start time
  *@param sendtime end time
 */
-void tv_sub(struct timeval *recvtime, struct timeval *sendtime)
+static void tv_sub(struct timeval *recvtime, struct timeval *sendtime)
 {
 	long sec = recvtime->tv_sec - sendtime->tv_sec;
 	long usec = recvtime->tv_usec - sendtime->tv_usec;
