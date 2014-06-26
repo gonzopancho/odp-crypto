@@ -2966,6 +2966,12 @@ main(int argc, char *argv[])
 		ODP_ERR("Error: ODP global init failed.\n");
 		exit(EXIT_FAILURE);
 	}
+
+	/* Init this thread */
+	thr_id = odp_thread_create(0);
+	odp_init_local(thr_id);
+
+	/* Init crypto */
 	odp_crypto_init(32);
 
 	/* Reserve memory for args from shared mem */
@@ -3008,10 +3014,6 @@ main(int argc, char *argv[])
 	 */
 	first_core = (core_count == 1) ? 0 : 1;
 	printf("First core:         %i\n\n", first_core);
-
-	/* Init this thread */
-	thr_id = odp_thread_create(0);
-	odp_init_local(thr_id);
 
 	/* Create packet buffer pool */
 	pool_base = odp_shm_reserve("shm_packet_pool",
